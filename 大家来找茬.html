@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>javascript</title>
+	<link rel="stylesheet" type="text/css" href="reset.css">
+	<script type="text/javascript"></script>
+    <style type="text/css">
+      .wrap{
+        width: 400px;
+        height: 400px;
+        border: 4px solid red;
+        margin: 0 auto;
+      }
+      .wrap div{
+        float: left;
+        background: black;
+        width: 200px;
+        height: 200px;
+        box-shadow: inset 0 0 0 1px #fff;
+      }
+      .wrap .select{
+        background: #39f;
+      }
+      .count {
+        font-size: 60px;
+      }
+    </style>
+	
+</head>
+<body>
+		<div class="wrap" id="box">
+      <!-- <div></div>
+      <div></div>
+      <div></div>
+      <div></div> -->
+    </div>
+    <div class="count" id="countEle">
+        
+    </div>
+</body><!-- 点击div变色 -->
+    <script type="text/javascript">
+        // 第二步 完成基本的结构与样式搭建。结构的搭建依托于基本功能需求。即我们需要有一个div，用于放置多个块，而需要一个div放置具体的点击次数，因此，提供了id名为wrap与countEle的两个元素。
+        // 第四步：点击后，当前拥有select类名的div，需要清楚类名，然后重新生成一次随机数，为相应的元素设置select类名。
+        // 第七步：实现关卡与基本功能的结合
+        var boxes = document.getElementById("box").getElementsByTagName("div");
+        var countEle = document.getElementById("countEle");
+        var box = document.getElementById("box");
+        // 计数器
+        var count = 0 ;
+        // 声明一个数组来存放关卡数
+        var rankArr = [2,3,4,5,6,7,8];
+        // 当前关卡数
+        var nowRank = 0;
+        // 获取box的宽度
+        var boxWidth = window.getComputedStyle(box).width;
+        console.log(boxWidth);
+       
+        // boxes[0].onclick =function(){
+        //   if (boxes[0].className == "select") {
+        //     countEle.innerHTML= "onclick";
+        //   };
+        // }
+        function abc(){
+          box.innerHTML="";
+          // 获取每一行的个数
+          var rowNum = rankArr[nowRank];
+          // 总共需要创建的小div的数量
+          var boxesNum = rowNum * rowNum ;
+
+          for (var i = 0; i < boxesNum; i++) {
+                box.innerHTML += "<div></div>";
+          };
+
+          // 存放每个小块的大小
+          var boxesWidth = parseInt(boxWidth) / rowNum;
+          // 设置每个小块进行大小的设置
+          for (var j = 0; j < boxes.length; j++) {
+            boxes[j].style.width = boxesWidth +"px";
+            boxes[j].style.height = boxesWidth + "px";
+          };
+
+          var ranNum = Math.floor(Math.random() * boxes.length);
+          boxes[ranNum].className = "select";
+          countEle.innerHTML = count;
+          bind();
+        };
+        abc();
+
+        function bind(){
+        for (var i = 0; i < boxes.length; i++) {
+            boxes[i].onclick = function(){
+              if (this.className =="select") {
+                    this.className="";
+                    nowRank++;
+                    count++;
+                    abc();
+                // var ranNum = Math.floor(Math.random() * boxes.length);
+                // boxes[ranNum].className = "select";
+                
+              };
+            }    
+        }
+      };
+
+        
+
+    </script>
+</html>
